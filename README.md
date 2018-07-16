@@ -223,7 +223,7 @@ Wikipedia says
 
 Translating the door example above. First of all we have our `Door` interface and some implementation for it
 
-```php
+```swift
 interface Door
 {
     public function getDescription();
