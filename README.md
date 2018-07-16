@@ -135,72 +135,69 @@ Wikipedia says
 
 Taking our hiring manager example above. First of all we have an interviewer interface and some implementations for it
 
-```php
-interface Interviewer
-{
-    public function askQuestions();
+```swift
+protocol Interviewer{
+    
+    func askQuestions();
 }
 
-class Developer implements Interviewer
-{
-    public function askQuestions()
-    {
-        echo 'Asking about design patterns!';
+class Developer:Interviewer {
+    
+    func askQuestions() {
+        print("Asking about design patterns!")
     }
 }
 
-class CommunityExecutive implements Interviewer
-{
-    public function askQuestions()
-    {
-        echo 'Asking about community building';
+class CommunityExecutive: Interviewer {
+    
+    func askQuestions() {
+        print("Asking about community building")
     }
 }
+
 ```
 
 Now let us create our `HiringManager`
 
-```php
-abstract class HiringManager
-{
+```swift
+protocol HiringManager{
+    //Factory method
+    func makeInterViewer() -> Interviewer
+}
 
-    // Factory method
-    abstract protected function makeInterviewer(): Interviewer;
-
-    public function takeInterview()
-    {
-        $interviewer = $this->makeInterviewer();
-        $interviewer->askQuestions();
+extension HiringManager {
+    
+    func takeInterview(){
+        let interviewer = makeInterViewer()
+        interviewer.askQuestions()
     }
 }
 
 ```
 Now any child can extend it and provide the required interviewer
-```php
-class DevelopmentManager extends HiringManager
-{
-    protected function makeInterviewer(): Interviewer
-    {
-        return new Developer();
+```swift
+class DevelopmentManager: HiringManager {
+    
+    func makeInterViewer() -> Interviewer {
+        return Developer()
     }
 }
 
-class MarketingManager extends HiringManager
-{
-    protected function makeInterviewer(): Interviewer
-    {
-        return new CommunityExecutive();
+class MarketingManager: HiringManager {
+    
+    func makeInterViewer() -> Interviewer {
+        return CommunityExecutive()
     }
 }
 ```
 and then it can be used as
 
-```php
-$devManager = new DevelopmentManager();
-$devManager->takeInterview(); // Output: Asking about design patterns
+```swift
+let devManager = DevelopmentManager()
+devManager.takeInterview() // Output: Ask questions about design patterns!
 
-$marketingManager = new MarketingManager();
-$marketingManager->takeInterview(); // Output: Asking about community building.
+let marketingManager = MarketingManager()
+marketingManager.takeInterview() // Output: Asking about community building.
 ```
 
 **When to use?**
