@@ -98,7 +98,7 @@ class WoodenDoor : Door {
 Then we have our door factory that makes the door and returns it
 ```swift
 class DoorFactory {
-    public static func makeDoor(width:Float, height:Float) -> Door {
+    static func makeDoor(width:Float, height:Float) -> Door {
         return WoodenDoor(width: width, height: height)
     }
 }
