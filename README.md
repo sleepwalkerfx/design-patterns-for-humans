@@ -66,53 +66,46 @@ In plain words
 Wikipedia says
 > In object-oriented programming (OOP), a factory is an object for creating other objects – formally a factory is a function or method that returns objects of a varying prototype or class from some method call, which is assumed to be "new".
 
-**Programmatic Example**
+**Programmatic Example in Swift 4.1**
 
 First of all we have a door interface and the implementation
-```php
-interface Door
-{
-    public function getWidth(): float;
-    public function getHeight(): float;
+```swift
+protocol Door {
+    
+    func getWidth()-> Float
+    func getHeight() -> Float
 }
 
-class WoodenDoor implements Door
-{
-    protected $width;
-    protected $height;
-
-    public function __construct(float $width, float $height)
-    {
-        $this->width = $width;
-        $this->height = $height;
+class WoodenDoor : Door {
+    
+    var width:Float
+    var height:Float
+    
+    init(width:Float, height:Float) {
+        self.width = width
+        self.height = height
     }
-
-    public function getWidth(): float
-    {
-        return $this->width;
+    
+    func getWidth() -> Float {
+        return self.width
     }
-
-    public function getHeight(): float
-    {
-        return $this->height;
+    
+    public func getHeight()-> Float {
+        return self.height
     }
 }
 ```
 Then we have our door factory that makes the door and returns it
-```php
-class DoorFactory
-{
-    public static function makeDoor($width, $height): Door
-    {
-        return new WoodenDoor($width, $height);
+```swift
+class DoorFactory {
+    public static func makeDoor(width:Float, height:Float) -> Door {
+        return WoodenDoor(width: width, height: height)
     }
 }
 ```
 And then it can be used as
-```php
-$door = DoorFactory::makeDoor(100, 200);
-echo 'Width: ' . $door->getWidth();
-echo 'Height: ' . $door->getHeight();
+```swift
+let door = DoorFactory.makeDoor(width: 100, height: 200 )
 ```
 
 **When to Use?**
