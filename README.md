@@ -325,9 +325,8 @@ Wikipedia says
 
 Having said that let me add a bit about what telescoping constructor anti-pattern is. At one point or the other we have all seen a constructor like below:
 
-```php
-public function __construct($size, $cheese = true, $pepperoni = true, $tomato = false, $lettuce = true)
-{
+```swift
+init(size:Double = 3.0, isCheese:Bool = true, isPepperoni:Bool = true, isTomato:Bool = true, isLettuce:Bool = true){
 }
 ```
 
@@ -337,83 +336,81 @@ As you can see; the number of constructor parameters can quickly get out of hand
 
 The sane alternative is to use the builder pattern. First of all we have our burger that we want to make
 
-```php
+```swift
 class Burger
 {
-    protected $size;
-
-    protected $cheese = false;
-    protected $pepperoni = false;
-    protected $lettuce = false;
-    protected $tomato = false;
-
-    public function __construct(BurgerBuilder $builder)
+    var size:Float;
+    
+    var cheese = false;
+    var pepperoni = false;
+    var lettuce = false;
+    var tomato = false;
+    
+    public init(builder:BurgerBuilder)
     {
-        $this->size = $builder->size;
-        $this->cheese = $builder->cheese;
-        $this->pepperoni = $builder->pepperoni;
-        $this->lettuce = $builder->lettuce;
-        $this->tomato = $builder->tomato;
+        self.size = builder.size;
+        self.cheese = builder.cheese;
+        self.pepperoni = builder.pepperoni;
+        self.lettuce = builder.lettuce;
+        self.tomato = builder.tomato;
     }
 }
 ```
 
 And then we have the builder
 
-```php
+```swift
 class BurgerBuilder
 {
-    public $size;
-
-    public $cheese = false;
-    public $pepperoni = false;
-    public $lettuce = false;
-    public $tomato = false;
-
-    public function __construct(int $size)
+    public var size:Float
+    
+    public var cheese = false
+    public var pepperoni = false
+    public var lettuce = false;
+    public var tomato = false;
+    
+    init(size:Float)
     {
-        $this->size = $size;
+        self.size = size;
     }
-
-    public function addPepperoni()
+    
+    public func addPepperoni() ->BurgerBuilder
     {
-        $this->pepperoni = true;
-        return $this;
+        self.pepperoni = true;
+        return self;
     }
-
-    public function addLettuce()
+    
+    public func addLettuce()->BurgerBuilder
     {
-        $this->lettuce = true;
-        return $this;
+        self.lettuce = true;
+        return self;
     }
-
-    public function addCheese()
+    
+    public func addCheese()->BurgerBuilder
     {
-        $this->cheese = true;
-        return $this;
+        self.cheese = true;
+        return self;
     }
-
-    public function addTomato()
+    
+    public func addTomato()->BurgerBuilder
     {
-        $this->tomato = true;
-        return $this;
+        self.tomato = true;
+        return self;
     }
-
-    public function build(): Burger
+    
+    public func build() -> Burger
     {
-        return new Burger($this);
+    return Burger(builder: self)
     }
 }
+
 ```
 And then it can be used as:
 
-```php
-$burger = (new BurgerBuilder(14))
-                    ->addPepperoni()
-                    ->addLettuce()
-                    ->addTomato()
-                    ->build();
+```Swift
+let burger =  BurgerBuilder(size: 14.0).addPepperoni().addLettuce().addTomato().build();
 ```
+
 
 **When to use?**
 
